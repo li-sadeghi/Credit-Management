@@ -10,4 +10,5 @@ class SellerAdmin(admin.ModelAdmin):
     list_display = (
         "full_name",
         "phone_number",
+        "remain_balance",
     )

@@ -28,6 +28,17 @@ class ChargeRequest(TimeModel):
         verbose_name="Is Accepted",
     )
 
+    def clean(self):
+        """Handle creating transaction when a charge request accepted."""
+        from credit_management.models import Transaction
+        if self.is_accepted:
+            Transaction.objects.create(
+                seller=self.seller,
+                transaction_type="d",
+                amount=self.amount,
+            )
+        return super().clean()
+
     class Meta:
         verbose_name = "Charge Request"
         verbose_name_plural = "Charge Requests"
