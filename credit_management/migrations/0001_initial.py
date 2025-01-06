@@ -6,59 +6,126 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Seller',
+            name="Seller",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', models.DateTimeField(auto_now_add=True, db_index=True)),
-                ('modified', models.DateTimeField(auto_now=True, db_index=True)),
-                ('full_name', models.CharField(max_length=60, verbose_name='Full Name')),
-                ('phone_number', models.CharField(max_length=13, unique=True, validators=[django.core.validators.RegexValidator(message='Your phone number must start with 09 and be entered with English digits.', regex='^09\\d{9}$')], verbose_name='Phone Number')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created", models.DateTimeField(auto_now_add=True, db_index=True)),
+                ("modified", models.DateTimeField(auto_now=True, db_index=True)),
+                (
+                    "full_name",
+                    models.CharField(max_length=60, verbose_name="Full Name"),
+                ),
+                (
+                    "phone_number",
+                    models.CharField(
+                        max_length=13,
+                        unique=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                message="Your phone number must start with 09 and be entered with English digits.",
+                                regex="^09\\d{9}$",
+                            )
+                        ],
+                        verbose_name="Phone Number",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Seller',
-                'verbose_name_plural': 'Sellers',
+                "verbose_name": "Seller",
+                "verbose_name_plural": "Sellers",
             },
         ),
         migrations.CreateModel(
-            name='Transaction',
+            name="Transaction",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', models.DateTimeField(auto_now_add=True, db_index=True)),
-                ('modified', models.DateTimeField(auto_now=True, db_index=True)),
-                ('transaction_type', models.CharField(choices=[('w', 'Decrease'), ('d', 'Increase')], max_length=1, verbose_name='Transaction Type')),
-                ('amount', models.PositiveIntegerField(verbose_name='Transaction Amount')),
-                ('seller', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='credit_management.seller', verbose_name='Seller')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created", models.DateTimeField(auto_now_add=True, db_index=True)),
+                ("modified", models.DateTimeField(auto_now=True, db_index=True)),
+                (
+                    "transaction_type",
+                    models.CharField(
+                        choices=[("w", "Decrease"), ("d", "Increase")],
+                        max_length=1,
+                        verbose_name="Transaction Type",
+                    ),
+                ),
+                (
+                    "amount",
+                    models.PositiveIntegerField(verbose_name="Transaction Amount"),
+                ),
+                (
+                    "seller",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="credit_management.seller",
+                        verbose_name="Seller",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Transaction',
-                'verbose_name_plural': 'Transactions',
+                "verbose_name": "Transaction",
+                "verbose_name_plural": "Transactions",
             },
         ),
         migrations.CreateModel(
-            name='ChargeRequest',
+            name="ChargeRequest",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', models.DateTimeField(auto_now_add=True, db_index=True)),
-                ('modified', models.DateTimeField(auto_now=True, db_index=True)),
-                ('amount', models.PositiveIntegerField(verbose_name='Charge Amount')),
-                ('is_accepted', models.BooleanField(default=False, verbose_name='Is Accepted')),
-                ('seller', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='credit_management.seller', verbose_name='Seller')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created", models.DateTimeField(auto_now_add=True, db_index=True)),
+                ("modified", models.DateTimeField(auto_now=True, db_index=True)),
+                ("amount", models.PositiveIntegerField(verbose_name="Charge Amount")),
+                (
+                    "is_accepted",
+                    models.BooleanField(default=False, verbose_name="Is Accepted"),
+                ),
+                (
+                    "seller",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="credit_management.seller",
+                        verbose_name="Seller",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Charge Request',
-                'verbose_name_plural': 'Charge Requests',
+                "verbose_name": "Charge Request",
+                "verbose_name_plural": "Charge Requests",
             },
         ),
         migrations.AddConstraint(
-            model_name='chargerequest',
-            constraint=models.UniqueConstraint(fields=('seller',), name='unique_charge_request_per_seller'),
+            model_name="chargerequest",
+            constraint=models.UniqueConstraint(
+                fields=("seller",), name="unique_charge_request_per_seller"
+            ),
         ),
     ]
