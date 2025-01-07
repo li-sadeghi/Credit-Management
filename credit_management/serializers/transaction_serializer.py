@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from credit_management.models import Transaction, Seller
 
+
 class SellerSerializer(serializers.ModelSerializer):
     remain_balance = serializers.ReadOnlyField()
 

@@ -4,6 +4,7 @@ from rest_framework.exceptions import NotFound
 from credit_management.models import Seller, Transaction
 from credit_management.serializers import TransactionSerializer
 
+
 class SellerTransactionAPIView(APIView):
     def get(self, request, seller_id):
         # Get the seller instance

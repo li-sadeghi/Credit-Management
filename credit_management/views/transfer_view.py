@@ -5,6 +5,7 @@ from django.db import transaction
 from credit_management.models import Transaction
 from credit_management.serializers import TransferSerializer
 
+
 class TransferView(APIView):
     """API endpoint for handling fund transfers between sellers.
 
@@ -12,6 +13,7 @@ class TransferView(APIView):
         post(request, *args, **kwargs):
             Handles the POST request to process a fund transfer.
     """
+
     def post(self, request, *args, **kwargs):
         """Handles a POST request to transfer funds between sellers.
 
@@ -65,7 +67,5 @@ class TransferView(APIView):
                     {"message": "Transfer successful."}, status=status.HTTP_200_OK
                 )
             except Exception as e:
-                return Response(
-                    {"error": str(e)}, status=status.HTTP_400_BAD_REQUEST
-                )
+                return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

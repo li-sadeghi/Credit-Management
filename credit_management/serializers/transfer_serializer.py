@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from credit_management.models import Seller
 
+
 class TransferSerializer(serializers.Serializer):
     """Serializer for handling fund transfers between sellers.
 
@@ -14,6 +15,7 @@ class TransferSerializer(serializers.Serializer):
             Validates the transfer request.
             Ensures sender and receiver are different, both exist, and the sender has sufficient balance.
     """
+
     sender_phone = serializers.CharField(max_length=13, required=True)
     receiver_phone = serializers.CharField(max_length=13, required=True)
     amount = serializers.IntegerField(min_value=1, required=True)
