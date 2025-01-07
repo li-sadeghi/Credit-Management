@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     # Project Apps:
     "credit_management",
     "_helper",
+    # Others
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
