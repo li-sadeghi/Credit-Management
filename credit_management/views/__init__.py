@@ -1,1 +1,2 @@
 from  credit_management.views.transfer_view import TransferView
+from credit_management.views.transaction_view import SellerTransactionAPIView

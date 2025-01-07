@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from credit_management.models import Seller, Transaction
+from credit_management.models import Seller
 
 class TransferSerializer(serializers.Serializer):
     """Serializer for handling fund transfers between sellers.
