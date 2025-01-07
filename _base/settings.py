@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Project Apps:
     "credit_management",
+    "_helper",
 ]
 
 MIDDLEWARE = [
