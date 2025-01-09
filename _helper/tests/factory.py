@@ -8,9 +8,9 @@ def create_dummy_seller(
     return Seller.objects.create(full_name=full_name, phone_number=phone_number)
 
 
-def create_dummy_charge_request(seller: Seller, amount: int) -> ChargeRequest:
+def create_dummy_charge_request(seller: Seller, amount: int, **kwargs) -> ChargeRequest:
     """Creates and returns a dummy charge request for a seller."""
-    return ChargeRequest.objects.create(seller=seller, amount=amount)
+    return ChargeRequest.objects.create(seller=seller, amount=amount, **kwargs)
 
 
 def create_dummy_transaction(

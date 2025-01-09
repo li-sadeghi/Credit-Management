@@ -18,17 +18,19 @@ class TestTransaction(TestCase):
 
     def test_transaction_model(self):
         """Test logics about transaction model"""
-        self.assertEqual(Transaction.objects.count(), 1)
-        self.assertEqual(self.seller.remain_balance, 10)
+        self.seller.refresh_from_db()
+        self.assertEqual(self.seller.credit, 10)
 
         # Add transaction for seller and check balance
         create_dummy_transaction(seller=self.seller, transaction_type="d", amount=20)
-        self.assertEqual(Transaction.objects.count(), 2)
-        self.assertEqual(self.seller.remain_balance, 30)
+        self.assertEqual(Transaction.objects.count(), 1)
+        self.seller.refresh_from_db()
+        self.assertEqual(self.seller.credit, 30)
 
         create_dummy_transaction(seller=self.seller, transaction_type="w", amount=5)
-        self.assertEqual(Transaction.objects.count(), 3)
-        self.assertEqual(self.seller.remain_balance, 25)
+        self.assertEqual(Transaction.objects.count(), 2)
+        self.seller.refresh_from_db()
+        self.assertEqual(self.seller.credit, 25)
 
         # Check raise error if we have incorrect transaction_type
         transaction = create_dummy_transaction(

@@ -51,7 +51,7 @@ class TransferSerializer(serializers.Serializer):
         except Seller.DoesNotExist:
             raise serializers.ValidationError("Sender not found.")
 
-        if sender.remain_balance < amount:
+        if sender.credit < amount:
             raise serializers.ValidationError("Sender has insufficient balance.")
 
         try:

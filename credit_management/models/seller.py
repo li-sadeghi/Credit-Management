@@ -1,6 +1,5 @@
 from django.db import models
 from _helper.models import TimeModel
-from django.db.models import Sum
 from _helper.validators import phone_number_validator
 
 
@@ -23,26 +22,7 @@ class Seller(TimeModel):
         unique=True,
     )
 
-    @property
-    def remain_balance(self):
-        from credit_management.models import Transaction
-
-        """Calculates the remaining balance for the seller using transactions."""
-        transactions = Transaction.objects.filter(seller=self)
-        total_increase = (
-            transactions.filter(transaction_type="d").aggregate(Sum("amount"))[
-                "amount__sum"
-            ]
-            or 0
-        )
-        total_decrease = (
-            transactions.filter(transaction_type="w").aggregate(Sum("amount"))[
-                "amount__sum"
-            ]
-            or 0
-        )
-
-        return total_increase - total_decrease
+    credit = models.FloatField(default=0.0, verbose_name="Credit",)
 
     def save(self, *args, **kwargs):
         self.full_clean()

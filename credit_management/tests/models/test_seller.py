@@ -22,4 +22,4 @@ class TestSeller(TestCase):
         self.assertEqual(Seller.objects.count(), 1)
         self.assertEqual(seller.full_name, "Ali Sadeghi")
         self.assertEqual(seller.phone_number, "09103527237")
-        self.assertEqual(seller.remain_balance, 0)
+        self.assertEqual(seller.credit, 0)

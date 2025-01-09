@@ -3,11 +3,11 @@ from credit_management.models import Transaction, Seller
 
 
 class SellerSerializer(serializers.ModelSerializer):
-    remain_balance = serializers.ReadOnlyField()
+    credit = serializers.ReadOnlyField()
 
     class Meta:
         model = Seller
-        fields = ("id", "full_name", "phone_number", "remain_balance")
+        fields = ("id", "full_name", "phone_number", "credit")
 
 
 class TransactionSerializer(serializers.ModelSerializer):

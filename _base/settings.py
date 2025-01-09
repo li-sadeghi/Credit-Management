@@ -81,7 +81,7 @@ WSGI_APPLICATION = "_base.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "tabdeal",
+        "NAME": "credit_management",
         "USER": "postgres",
         "PASSWORD": "postgres",
         "HOST": "localhost",

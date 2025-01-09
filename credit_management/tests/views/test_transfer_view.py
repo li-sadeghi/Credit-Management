@@ -75,10 +75,11 @@ class TransferViewTests(APITestCase):
             "amount": 200,
         }
         response = self.client.post(self.url, data, format="json")
-
+        self.seller1.refresh_from_db()
+        self.seller2.refresh_from_db()
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(self.seller1.remain_balance, 800)
-        self.assertEqual(self.seller2.remain_balance, 1200)
+        self.assertEqual(self.seller1.credit, 800)
+        self.assertEqual(self.seller2.credit, 1200)
 
     def test_decrease_and_increase_of_remaining_balances_in_failed_transfer(self):
         """Test the balance remains unchanged after a failed transfer."""
@@ -88,6 +89,6 @@ class TransferViewTests(APITestCase):
             "amount": 200,
         }
         response = self.client.post(self.url, data, format="json")
-
+        self.seller1.refresh_from_db()
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(self.seller1.remain_balance, 1000)
+        self.assertEqual(self.seller1.credit, 1000)

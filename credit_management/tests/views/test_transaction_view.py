@@ -36,11 +36,11 @@ class TestTransactionView(APITestCase):
         response = self.client.get(self.api_url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 3)
-        self.assertEqual(response.data[1]["amount"], 100)
-        self.assertEqual(response.data[1]["transaction_type"], "d")
-        self.assertEqual(response.data[2]["amount"], 50)
-        self.assertEqual(response.data[2]["transaction_type"], "w")
+        self.assertEqual(len(response.data), 2)
+        self.assertEqual(response.data[0]["amount"], 100)
+        self.assertEqual(response.data[0]["transaction_type"], "d")
+        self.assertEqual(response.data[1]["amount"], 50)
+        self.assertEqual(response.data[1]["transaction_type"], "w")
 
     @patch("credit_management.models.Seller.objects.get")
     def test_get_transactions_for_invalid_seller(self, mock_get):
