@@ -24,7 +24,7 @@ class ChargeRequest(TimeModel):
     )
     amount = models.FloatField(
         verbose_name="Charge Amount",
-        validators=[MinValueValidator(0.01)], 
+        validators=[MinValueValidator(0.01)],
     )
     is_accepted = models.BooleanField(
         default=False,
@@ -35,13 +35,19 @@ class ChargeRequest(TimeModel):
         if self.pk:
             old_object = ChargeRequest.objects.get(pk=self.pk)
             if old_object.is_accepted:
-                raise ValidationError("This charge request has already been accepted and cannot be modified.")
+                raise ValidationError(
+                    "This charge request has already been accepted and cannot be modified."
+                )
             else:
-                seller = Seller.objects.select_for_update().get(phone_number=self.seller.phone_number)
+                seller = Seller.objects.select_for_update().get(
+                    phone_number=self.seller.phone_number
+                )
                 seller.credit += self.amount
                 seller.save()
         elif self.is_accepted:
-            raise ValidationError("This charge request must be accepted in admin panel.")
+            raise ValidationError(
+                "This charge request must be accepted in admin panel."
+            )
 
         super().save(*args, **kwargs)
 

@@ -5,25 +5,30 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('credit_management', '0001_initial'),
+        ("credit_management", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='seller',
-            name='credit',
-            field=models.FloatField(default=0.0, verbose_name='Credit'),
+            model_name="seller",
+            name="credit",
+            field=models.FloatField(default=0.0, verbose_name="Credit"),
         ),
         migrations.AlterField(
-            model_name='chargerequest',
-            name='amount',
-            field=models.FloatField(validators=[django.core.validators.MinValueValidator(0.01)], verbose_name='Charge Amount'),
+            model_name="chargerequest",
+            name="amount",
+            field=models.FloatField(
+                validators=[django.core.validators.MinValueValidator(0.01)],
+                verbose_name="Charge Amount",
+            ),
         ),
         migrations.AlterField(
-            model_name='transaction',
-            name='amount',
-            field=models.FloatField(validators=[django.core.validators.MinValueValidator(0.01)], verbose_name='Transaction Amount'),
+            model_name="transaction",
+            name="amount",
+            field=models.FloatField(
+                validators=[django.core.validators.MinValueValidator(0.01)],
+                verbose_name="Transaction Amount",
+            ),
         ),
     ]

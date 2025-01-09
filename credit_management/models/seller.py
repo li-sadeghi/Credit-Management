@@ -22,7 +22,10 @@ class Seller(TimeModel):
         unique=True,
     )
 
-    credit = models.FloatField(default=0.0, verbose_name="Credit",)
+    credit = models.FloatField(
+        default=0.0,
+        verbose_name="Credit",
+    )
 
     def save(self, *args, **kwargs):
         self.full_clean()

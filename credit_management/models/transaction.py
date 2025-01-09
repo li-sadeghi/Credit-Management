@@ -39,7 +39,7 @@ class Transaction(TimeModel):
     )
     amount = models.FloatField(
         verbose_name=_("Transaction Amount"),
-        validators=[MinValueValidator(0.01)], 
+        validators=[MinValueValidator(0.01)],
     )
 
     def save(self, *args, **kwargs):
