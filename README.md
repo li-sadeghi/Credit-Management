@@ -1,5 +1,5 @@
-# Tabdeal-Project
-This is a mini project to enter the Tabdeal company.
+# Credit-Management
+This is a mini project for managing credit between sellers.
 
 ---
 
