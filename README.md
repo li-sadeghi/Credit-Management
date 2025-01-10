@@ -5,18 +5,10 @@ This is a mini project to enter the Tabdeal company.
 
 ## How to Run
 
-### Using Docker
-
-1. Build and start the containers:
+Set the environment. for example:
 ```
-docker compose up -d
+export ENV=development
 ```
-
-2. Apply database migrations:
-```
-dcoker compose exec app bash python manage.py migrate
-```
-
 
 ## Using Python:
 1. Create a virtual environment:
@@ -38,3 +30,17 @@ pip install -r requirements.in
 ```
 python manage.py migrate
 ```
+
+### Using Docker
+
+1. Build and start the containers:
+```
+docker compose up -d
+```
+
+2. Apply database migrations:
+```
+dcoker compose exec app bash python manage.py migrate
+```
+
+
