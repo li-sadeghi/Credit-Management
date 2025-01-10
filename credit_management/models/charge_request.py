@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
-from django.db import models
+from django.db import models, transaction
+from django.db.models import F
 from _helper.models import TimeModel
 from credit_management.models import Seller
 from django.core.validators import MinValueValidator
@@ -38,12 +39,10 @@ class ChargeRequest(TimeModel):
                 raise ValidationError(
                     "This charge request has already been accepted and cannot be modified."
                 )
-            else:
-                seller = Seller.objects.select_for_update().get(
-                    phone_number=self.seller.phone_number
+            elif self.is_accepted:
+                Seller.objects.filter(pk=self.seller.pk).update(
+                    credit=self.amount
                 )
-                seller.credit += self.amount
-                seller.save()
         elif self.is_accepted:
             raise ValidationError(
                 "This charge request must be accepted in admin panel."
