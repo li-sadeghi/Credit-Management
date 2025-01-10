@@ -13,7 +13,7 @@ class ChargeRequest(TimeModel):
 
     Attributes:
         seller (ForeignKey): The seller associated with the charge request.
-        amount (PositiveIntegerField): The requested amount to be charged in the account.
+        amount (FloatField): The requested amount to be charged in the account.
         is_accepted (BooleanField): Indicates whether the charge request has been accepted.
     """
 

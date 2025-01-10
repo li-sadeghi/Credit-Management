@@ -17,7 +17,7 @@ class Transaction(TimeModel):
         seller (ForeignKey): The seller associated with the transaction.
         transaction_type (CharField): The type of transaction
             (e.g., increase or decrease).
-        amount (PositiveIntegerField): The amount involved in the transaction.
+        amount (FloatField): The amount involved in the transaction.
     """
 
     seller = models.ForeignKey(
