@@ -1,4 +1,3 @@
-from unittest.mock import patch
 from rest_framework.test import APITestCase
 from rest_framework import status
 from django.urls import reverse
@@ -8,7 +7,6 @@ from _helper.tests.factory import (
     create_dummy_transaction,
     create_dummy_user,
 )
-from rest_framework.authtoken.models import Token
 
 
 class TestTransactionView(APITestCase):

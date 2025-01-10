@@ -1,7 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.exceptions import NotFound
-from credit_management.models import Seller, Transaction
+from credit_management.models import Transaction
 from credit_management.serializers import TransactionSerializer
 from _helper.permissions import IsSeller
 

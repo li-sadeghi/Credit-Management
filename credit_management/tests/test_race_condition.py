@@ -53,7 +53,7 @@ class TestTransaction(TransactionTestCase):
                 "receiver_phone": self.seller2.phone_number,
                 "amount": 100,
             }
-            response = self.client.post(self.url, data, format="json")
+            self.client.post(self.url, data, format="json")
             connection.close()
 
         threads = []

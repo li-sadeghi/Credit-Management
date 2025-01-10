@@ -1,5 +1,5 @@
 from django.test import TestCase
-from credit_management.models import ChargeRequest, Transaction
+from credit_management.models import ChargeRequest
 from _helper.tests.factory import create_dummy_seller, create_dummy_charge_request
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError

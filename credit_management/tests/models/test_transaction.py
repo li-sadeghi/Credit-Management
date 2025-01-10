@@ -4,7 +4,7 @@ from _helper.tests.factory import (
     create_dummy_seller,
     create_dummy_transaction,
 )
-from credit_management.models import Seller, Transaction, ChargeRequest
+from credit_management.models import Transaction
 from django.core.exceptions import ValidationError
 
 
@@ -36,5 +36,5 @@ class TestTransaction(TestCase):
         transaction = create_dummy_transaction(
             seller=self.seller, transaction_type="c", amount=5
         )
-        with self.assertRaises(ValidationError) as e:
+        with self.assertRaises(ValidationError):
             transaction.full_clean()

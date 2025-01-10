@@ -1,6 +1,5 @@
 from credit_management.models import Seller, ChargeRequest, Transaction
 from django.contrib.auth.models import User
-from rest_framework.authtoken.models import Token
 import random
 import string
 
