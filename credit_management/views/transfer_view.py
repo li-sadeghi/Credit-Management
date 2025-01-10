@@ -4,6 +4,7 @@ from rest_framework import status
 from django.db import transaction
 from credit_management.models import Transaction
 from credit_management.serializers import TransferSerializer
+from _helper.permissions import IsSeller
 
 
 class TransferView(APIView):
@@ -13,6 +14,8 @@ class TransferView(APIView):
         post(request, *args, **kwargs):
             Handles the POST request to process a fund transfer.
     """
+
+    permission_classes = [IsSeller]
 
     def post(self, request, *args, **kwargs):
         """Handles a POST request to transfer funds between sellers.
@@ -41,7 +44,7 @@ class TransferView(APIView):
             serializers.ValidationError: If the request data is invalid.
             Exception: If an error occurs during the atomic transaction.
         """
-        serializer = TransferSerializer(data=request.data)
+        serializer = TransferSerializer(data=request.data, context={"request": request})
         if serializer.is_valid():
             sender = serializer.validated_data["sender"]
             receiver = serializer.validated_data["receiver"]

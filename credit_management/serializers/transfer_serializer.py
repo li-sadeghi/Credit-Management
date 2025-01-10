@@ -16,9 +16,13 @@ class TransferSerializer(serializers.Serializer):
             Ensures sender and receiver are different, both exist, and the sender has sufficient balance.
     """
 
-    sender_phone = serializers.CharField(max_length=13, required=True)
     receiver_phone = serializers.CharField(max_length=13, required=True)
     amount = serializers.IntegerField(min_value=1, required=True)
+
+    def __init__(self, *args, **kwargs):
+        # Pass the request object to the serializer
+        self.request = kwargs.get("context", {}).get("request", None)
+        super().__init__(*args, **kwargs)
 
     def validate(self, data):
         """Validates the transfer details.
@@ -39,17 +43,13 @@ class TransferSerializer(serializers.Serializer):
                 - Sender's balance is insufficient.
                 - Receiver does not exist.
         """
-        sender_phone = data.get("sender_phone")
+        sender = self.request.user.seller
+        sender_phone = sender.phone_number
         receiver_phone = data.get("receiver_phone")
         amount = data.get("amount")
 
         if sender_phone == receiver_phone:
             raise serializers.ValidationError("Sender and receiver must be different.")
-
-        try:
-            sender = Seller.objects.get(phone_number=sender_phone)
-        except Seller.DoesNotExist:
-            raise serializers.ValidationError("Sender not found.")
 
         if sender.credit < amount:
             raise serializers.ValidationError("Sender has insufficient balance.")

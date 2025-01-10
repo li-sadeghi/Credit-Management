@@ -3,15 +3,15 @@ from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 from credit_management.models import Seller, Transaction
 from credit_management.serializers import TransactionSerializer
+from _helper.permissions import IsSeller
 
 
 class SellerTransactionAPIView(APIView):
-    def get(self, request, seller_id):
+    permission_classes = [IsSeller]
+
+    def get(self, request):
         # Get the seller instance
-        try:
-            seller = Seller.objects.get(id=seller_id)
-        except Seller.DoesNotExist:
-            raise NotFound("Seller not found")
+        seller = self.request.user.seller
 
         # Fetch transactions for the seller
         transactions = Transaction.objects.filter(seller=seller)

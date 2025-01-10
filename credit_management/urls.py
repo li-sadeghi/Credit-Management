@@ -8,12 +8,12 @@ from credit_management.views import (
 urlpatterns = [
     path("api/v1/transfer/", TransferView.as_view(), name="transfer"),
     path(
-        "api/v1/transactions/<int:seller_id>/",
+        "api/v1/transactions/",
         SellerTransactionAPIView.as_view(),
         name="seller-transactions",
     ),
     path(
-        "charge-requests/",
+        "api/v1/charge-requests/",
         ChargeRequestCreateView.as_view(),
         name="charge-request-create",
     ),
