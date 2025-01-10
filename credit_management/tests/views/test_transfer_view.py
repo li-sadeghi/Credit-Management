@@ -1,9 +1,10 @@
+import threading
 from unittest import mock
 from django.urls import reverse
+from django.test import TransactionTestCase
 from rest_framework.test import APITestCase
 from rest_framework import status
 from credit_management.models import Seller
-from credit_management.serializers import TransferSerializer
 from _helper.tests.factory import create_dummy_seller, create_dummy_charge_request
 
 
