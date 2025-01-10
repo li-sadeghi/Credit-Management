@@ -122,6 +122,8 @@ __pypackages__/
 
 # Celery stuff
 celerybeat-schedule
+celerybeat-schedule-shm
+celerybeat-schedule-wal
 celerybeat.pid
 
 # SageMath parsed files
@@ -172,3 +174,6 @@ cython_debug/
 
 # Env files
 config/development.env
+
+# pyenv
+.python-version

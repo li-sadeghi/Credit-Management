@@ -5,3 +5,6 @@ from credit_management.admin.charge_request_admin import (
 from credit_management.admin.transaction_admin import (
     TransactionAdmin as TransactionAdmin,
 )
+from credit_management.admin.notification_admin import (
+    NotificationAdmin as NotificationAdmin,
+)

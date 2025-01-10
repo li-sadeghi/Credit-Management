@@ -32,6 +32,7 @@ class Seller(TimeModel):
         verbose_name="Phone Number",
         validators=(phone_number_validator,),
         unique=True,
+        db_index=True,
     )
 
     credit = models.FloatField(
@@ -42,6 +43,10 @@ class Seller(TimeModel):
     def save(self, *args, **kwargs):
         self.full_clean()
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        """Returns the string representation of the seller."""
+        return self.full_name + f" with phone {self.phone_number}"
 
     class Meta:
         verbose_name = "Seller"
