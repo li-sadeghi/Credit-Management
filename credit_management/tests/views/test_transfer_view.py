@@ -1,11 +1,13 @@
-import threading
 from unittest import mock
 from django.urls import reverse
-from django.test import TransactionTestCase
 from rest_framework.test import APITestCase
 from rest_framework import status
 from credit_management.models import Seller
-from _helper.tests.factory import create_dummy_seller, create_dummy_charge_request
+from _helper.tests.factory import (
+    create_dummy_seller,
+    create_dummy_charge_request,
+    create_dummy_user,
+)
 
 
 class TransferViewTests(APITestCase):
@@ -13,11 +15,13 @@ class TransferViewTests(APITestCase):
 
     def setUp(self):
         """Set up test environment by creating dummy sellers, charge requests, and transfer URL."""
+        self.user1 = create_dummy_user(username="test1", email="test1@gmail.com")
+        self.user2 = create_dummy_user(username="test2", email="test2@gamil.com")
         self.seller1 = create_dummy_seller(
-            full_name="seller1", phone_number="09345678907"
+            full_name="seller1", phone_number="09345678907", user=self.user1
         )
         self.seller2 = create_dummy_seller(
-            full_name="seller2", phone_number="09876543217"
+            full_name="seller2", phone_number="09876543217", user=self.user2
         )
 
         seller1_charge = create_dummy_charge_request(seller=self.seller1, amount=1000)
@@ -29,6 +33,7 @@ class TransferViewTests(APITestCase):
         seller2_charge.save()
 
         self.url = reverse("transfer")
+        self.client.login(username="test1", password=self.user1.raw_password)
 
     @mock.patch("credit_management.models.Transaction.objects.create")
     @mock.patch("credit_management.serializers.TransferSerializer.is_valid")
@@ -46,7 +51,6 @@ class TransferViewTests(APITestCase):
         mock_create.return_value = None
 
         data = {
-            "sender_phone": self.seller1.phone_number,
             "receiver_phone": self.seller2.phone_number,
             "amount": 200,
         }
@@ -61,17 +65,28 @@ class TransferViewTests(APITestCase):
         """Test a failed transfer between a valid and an invalid seller."""
         mock_validated_data.side_effect = Seller.DoesNotExist
         data = {
-            "sender_phone": self.seller1.phone_number,
             "receiver_phone": "11111",
             "amount": 200,
         }
         response = self.client.post(self.url, data, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
+    def test_transfer_block_for_non_seller_user(self):
+        """Test when a non seller user tried to transfer, block it by permission denied."""
+        self.seller2.user = None
+        self.seller2.save()
+        self.client.login(username="test2", password=self.user2.raw_password)
+        data = {
+            "receiver_phone": self.seller1.phone_number,
+            "amount": 200,
+        }
+        response = self.client.post(self.url, data, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
     def test_decrease_and_increase_of_remaining_balances_in_successful_transfer(self):
         """Test the balance update after a successful transfer."""
         data = {
-            "sender_phone": self.seller1.phone_number,
             "receiver_phone": self.seller2.phone_number,
             "amount": 200,
         }
@@ -85,7 +100,6 @@ class TransferViewTests(APITestCase):
     def test_decrease_and_increase_of_remaining_balances_in_failed_transfer(self):
         """Test the balance remains unchanged after a failed transfer."""
         data = {
-            "sender_phone": self.seller1.phone_number,
             "receiver_phone": "11111",
             "amount": 200,
         }
@@ -93,3 +107,13 @@ class TransferViewTests(APITestCase):
         self.seller1.refresh_from_db()
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(self.seller1.credit, 1000)
+
+    def test_user_canont_charge_itself(self):
+        """Test block users to charge for themselves."""
+        # The user1 try to charge itself
+        data = {
+            "receiver_phone": self.seller1.phone_number,
+            "amount": 200,
+        }
+        response = self.client.post(self.url, data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

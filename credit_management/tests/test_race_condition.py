@@ -7,6 +7,7 @@ from _helper.tests.factory import (
     create_dummy_seller,
     create_dummy_charge_request,
     create_dummy_transaction,
+    create_dummy_user,
 )
 from credit_management.models import Seller
 from django.db import connection
@@ -18,8 +19,9 @@ class TestTransaction(TransactionTestCase):
     def setUp(self):
         """Set up initial test data for sellers and transaction URLs."""
         self.client = APIClient()
+        self.user1 = create_dummy_user(username="test1")
         self.seller1 = create_dummy_seller(
-            full_name="seller1", phone_number="09345678907"
+            full_name="seller1", phone_number="09345678907", user=self.user1
         )
         self.seller2 = create_dummy_seller(
             full_name="seller2", phone_number="09876543217"
@@ -39,6 +41,7 @@ class TestTransaction(TransactionTestCase):
             seller2_charge.save()
 
         self.url = reverse("transfer")
+        self.client.login(username="test1", password=self.user1.raw_password)
 
     def test_transfer_race_condition(self):
         """Test transfer api for race conditions."""

@@ -7,9 +7,12 @@ from _helper.permissions import IsSeller
 
 
 class SellerTransactionAPIView(APIView):
+    """API view for retrieving transactions related to a seller."""
+
     permission_classes = [IsSeller]
 
     def get(self, request):
+        """Handles GET requests to retrieve transactions for the authenticated seller."""
         # Get the seller instance
         seller = self.request.user.seller
 
