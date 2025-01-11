@@ -10,6 +10,11 @@ Set the environment. for example:
 export ENV=development
 ```
 
+Create a `development.env` file in the config folder.
+Copy the values from `example.env`, 
+fill them in with your own, 
+and then follow the steps below.
+
 ## Using Python:
 1. Create a virtual environment:
 ```
